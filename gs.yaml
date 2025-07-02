@@ -1,0 +1,1264 @@
+openapi: 3.0.3
+
+info:
+  title: GS - Books
+  description: API relativa à gestão da biblioteca GS - Books, onde é possível realizar operações CRUD de livros, autores, clientes e empréstimos.
+  contact:
+    email: gsbooks@gmail.com
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Servidor local
+security:
+  - bearerAuth: []
+tags:
+  - name: user
+    description: Dados referentes aos utilizadores
+  - name: livro
+    description: Dados referentes aos livros
+  - name: autor
+    description: Dados referentes aos autores
+  - name: emprestimo
+    description: Dados referentes aos empréstimos
+  - name: auth
+    description: Dados de autenticação
+
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Criar um novo user
+      description: Cria um novo user na base de dados
+      operationId: createUser
+      parameters:
+
+      requestBody:
+        description: Criar um novo user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "201":
+          description: User criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na criação do user
+        "500":
+          description: Erro interno do servidor
+    get:
+      tags:
+        - user
+      summary: Listar todos os users
+      description: Lista todos os users na base de dados
+      operationId: getAllUsers
+      parameters:
+        - name: username
+          in: query
+          required: false
+          description: Filtrar por nome de utilizador
+          schema:
+            type: string
+            example: theBigMan
+        - name: email
+          in: query
+          required: false
+          description: Filtrar por email do utilizador
+          schema:
+            type: string
+            example: exemplo@email.com
+        - name: admin
+          in: query
+          required: false
+          description: Filtrar por utilizadores administradores
+          schema:
+            type: boolean
+            example: true
+      responses:
+        "200":
+          description: Lista de users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na listagem dos users
+        "404":
+          description: Nenhum user encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: Lista um user com base no ID
+      description: Lista um user com base no ID
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do utilizador
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: User encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na listagem do user
+        "404":
+          description: User não encontrado
+        "500":
+          description: Erro interno do servidor
+    delete:
+      tags:
+        - user
+      summary: Elimina um user
+      description: Elimina um user da base de dados com base no seu ID
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do user a ser eliminado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: User eliminado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na eliminação do user
+        "404":
+          description: User não encontrado
+        "500":
+          description: Erro interno do servidor
+
+    put:
+      tags:
+        - user
+      summary: Atualizar um user
+      description: Atualiza um user na com base no seu ID na base de dados
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do user a ser atualizado
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualizar um user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          description: User atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na atualização do user
+        "404":
+          description: User não encontrado
+        "500":
+          description: Erro interno do servidor.
+
+  /user/{username}:
+    get:
+      tags:
+        - user
+      summary: Lista um user com base no seu username
+      description: Lista um user com base no username na base de dados
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: username do user a ser listado
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Erro na listagem do user
+        "404":
+          description: User não encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Autenticar um utilizador
+      description: Autentica um utilizador e retorna um token JWT
+      security: [] # Desativa autenticação para este endpoint
+
+      requestBody:
+        description: Dados de autenticação do utilizador
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: string
+                password:
+                  type: string
+                  format: string
+        required: true
+      responses:
+        "200":
+          description: Autenticação com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Auth"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Acesso não autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /refreshToken:
+    post:
+      tags:
+        - auth
+      summary: Renovar o token de acesso
+      description: Renova o token de acesso utilizando o token de atualização
+      parameters:
+        - name: refreshToken
+          in: query
+          required: true
+          description: Token de atualização para renovar o acesso
+          schema:
+            type: string
+            example: dGhpcyByZWZyZXNoIHRva2Vu
+      responses:
+        "200":
+          description: Renovação do token realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  AccessToken:
+                    type: string
+                    format: string
+        "404":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Acesso não autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /logout:
+    delete:
+      tags:
+        - auth
+      summary: Logout um utilizador
+      description: Logout um utilizador e invalida o token JWT
+      parameters:
+        - name: token
+          in: header
+          description: token de acesso atual
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        "200":
+          description: Logout realizado com sucesso
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Acesso não autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /register:
+    post:
+      tags:
+        - auth
+      summary: Registar um novo utilizador
+      description: Regista um novo utilizador e retorna um token JWT
+      security: [] # Desativa autenticação para este endpoint
+      requestBody:
+        description: Dados de registo do utilizador
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  format: string
+                email:
+                  type: string
+                  format: string
+                password:
+                  type: string
+                  format: string
+        required: true
+      responses:
+        "201":
+          description: Utilizador registado com sucesso
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Acesso não autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /livros:
+    post:
+      tags:
+        - livro
+      summary: Criar um novo livro
+      description: Cria um novo livro na base de dados
+      operationId: createLivro
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: ID do user que está a criar o livro
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Criar um novo livro
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Livro"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Livro"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Livro"
+        required: true
+      responses:
+        "201":
+          description: Livro criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na criação do livro
+        "500":
+          description: Erro interno do servidor
+    get:
+      tags:
+        - livro
+      summary: Listar todos os livros
+      description: Lista todos os livros na base de dados
+      operationId: getAllLivros
+      parameters:
+        - name: titulo
+          in: query
+          required: false
+          description: Título do livro a ser listado
+          schema:
+            type: string
+            example: Dom Quixote
+      responses:
+        "200":
+          description: Lista de livros
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na listagem dos livros
+        "404":
+          description: Nenhum livro encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /livros/{id}:
+    get:
+      tags:
+        - livro
+      summary: Lista um livro com base no ID
+      description: Lista um livro com base no ID
+      operationId: getLivroById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do livro a ser listado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Livro encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na listagem do livro
+        "404":
+          description: Livro não encontrado
+        "500":
+          description: Erro interno do servidor
+    put:
+      tags:
+        - livro
+      summary: Atualizar um livro
+      description: Atualiza um livro com base no seu ID na base de dados
+      operationId: updateLivro
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do livro a ser atualizado
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualizar um livro
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Livro"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Livro"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Livro"
+        required: true
+      responses:
+        "200":
+          description: Livro atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na atualização do livro
+        "404":
+          description: Livro não encontrado
+        "500":
+          description: Erro interno do servidor
+    delete:
+      tags:
+        - livro
+      summary: Elimina um livro
+      description: Elimina um livro da base de dados com base no seu ID
+      operationId: deleteLivro
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do livro a ser eliminado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Livro eliminado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na eliminação do livro
+        "404":
+          description: Livro não encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /livros/{titulo}:
+    get:
+      tags:
+        - livro
+      summary: Lista um livro com base no seu título
+      description: Lista um livro com base no título na base de dados
+      operationId: getLivroByTitle
+      parameters:
+        - name: titulo
+          in: path
+          required: true
+          description: Título do livro a ser listado
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Livro encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na listagem do livro
+        "404":
+          description: Livro não encontrado
+        "500":
+          description: Erro interno do servidor
+
+  /livros/{genero}:
+    get:
+      tags:
+        - livro
+      summary: Lista livros por género
+      description: Lista todos os livros de um determinado género
+      operationId: getLivrosByGenero
+      parameters:
+        - name: genero
+          in: path
+          required: true
+          description: Género do livro a ser listado
+          schema:
+            type: string
+            example: Romance
+      responses:
+        "200":
+          description: Lista de livros por género
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Livro"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Livro"
+        "400":
+          description: Erro na listagem dos livros por género
+        "404":
+          description: Nenhum livro encontrado para o género especificado
+        "500":
+          description: Erro interno do servidor
+
+  /emprestimos:
+    post:
+      tags:
+        - emprestimo
+      summary: Criar um novo empréstimo
+      description: Cria um novo empréstimo na base de dados
+      operationId: createEmprestimo
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: ID do utilizador que está a realizar o empréstimo
+          schema:
+            type: integer
+            format: int32
+        - name: livro_id
+          in: query
+          required: true
+          description: ID do livro a ser emprestado
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        description: Criar um novo empréstimo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+        required: true
+      responses:
+        "201":
+          description: Empréstimo criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+        "400":
+          description: Erro na criação do empréstimo
+        "500":
+          description: Erro interno do servidor
+
+    get:
+      tags:
+        - emprestimo
+      summary: Listar todos os empréstimos
+      description: Lista todos os empréstimos na base de dados
+      operationId: getAllEmprestimos
+      responses:
+        "200":
+          description: Lista de empréstimos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Emprestimo"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Emprestimo"
+        "400":
+          description: Erro na listagem dos empréstimos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Nenhum empréstimo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Nenhum empréstimo encontrado
+                code: 404
+        "500":
+          description: Erro interno
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /emprestimos/{id}:
+    get:
+      tags:
+        - emprestimo
+      summary: Lista um empréstimo com base no ID
+      description: Lista um empréstimo com base no ID
+      operationId: getEmprestimoById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do empréstimo a ser listado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Empréstimo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+        "400":
+          description: Erro na listagem do empréstimo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Empréstimo não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Empréstimo não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+    delete:
+      tags:
+        - emprestimo
+      summary: Elimina um empréstimo
+      description: Elimina um empréstimo da base de dados com base no seu ID
+      operationId: deleteEmprestimo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do empréstimo a ser eliminado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Empréstimo eliminado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+        "400":
+          description: Erro na eliminação do empréstimo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Empréstimo não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Empréstimo não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+    put:
+      tags:
+        - emprestimo
+      summary: Atualizar um empréstimo
+      description: Atualiza um empréstimo com base no seu ID na base de dados
+      operationId: updateEmprestimo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do empréstimo a ser atualizado
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualizar um empréstimo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Emprestimo"
+        required: true
+      responses:
+        "200":
+          description: Empréstimo atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Emprestimo"
+        "400":
+          description: Erro na atualização do empréstimo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Empréstimo não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Empréstimo não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+  /autores:
+    post:
+      tags:
+        - autor
+      summary: Criar um novo autor
+      description: Cria um novo autor na base de dados
+      operationId: createAutor
+      requestBody:
+        description: Criar um novo autor
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Autor"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Autor"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Autor"
+        required: true
+      responses:
+        "201":
+          description: Autor criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na criação do autor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+    get:
+      tags:
+        - autor
+      summary: Listar todos os autores
+      description: Lista todos os autores na base de dados
+      operationId: getAllAutores
+      parameters:
+        - name: nome
+          in: query
+          required: false
+          description: Nome do autor a ser listado
+          schema:
+            type: string
+            example: Miguel de Cervantes
+      responses:
+        "200":
+          description: Lista de autores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na listagem dos autores
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Nenhum autor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Nenhum autor encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+  
+  /autores/{id}:
+    get:
+      tags:
+        - autor
+      summary: Lista um autor com base no ID
+      description: Lista um autor com base no ID
+      operationId: getAutorById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do autor a ser listado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Autor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na listagem do autor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Autor não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Autor não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+    delete:
+      tags:
+        - autor
+      summary: Elimina um autor
+      description: Elimina um autor da base de dados com base no seu ID
+      operationId: deleteAutor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do autor a ser eliminado
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Autor eliminado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na eliminação do autor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Autor não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Autor não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: theBigMan
+        email:
+          type: string
+          format: email
+          example: thebiggal@yahoo.com
+        numero_telefone:
+          type: string
+          example: 912345678
+        password:
+          type: string
+          example: 123456
+        admin:
+          type: boolean
+          example: 1
+
+    Autor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        nome:
+          type: string
+          example: Miguel de Cervantes
+        nacionalidade:
+          type: string
+          example: Espanhol
+        data_nascimento:
+          type: string
+          format: date-time
+          example: 1547-09-29T00:00:00Z
+        data_falecimento:
+          type: string
+          format: date-time
+          example: 1616-04-22T00:00:00Z
+        livros:
+          type: array
+          items:
+            $ref: "#/components/schemas/Livro"
+
+    Emprestimo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        livro_id:
+          type: integer
+          format: int32
+          example: 1
+        user_id:
+          type: integer
+          format: int32
+          example: 1
+        data_emprestimo:
+          type: string
+          format: date-time
+          example: 2025-04-05 12:00:00
+        data_devolucao:
+          type: string
+          format: date-time
+          example: 2025-04-12 12:00:00
+
+    Livro:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        titulo:
+          type: string
+          example: Dom Quixote
+        autor_id:
+          type: integer
+          example: 1
+        ano_publicacao:
+          type: integer
+          format: int32
+          example: 1605
+        genero:
+          type: string
+          example: Romance
+        preco:
+          type: number
+          format: float
+          example: 19.99
+        vendedor_id:
+          type: integer
+          format: int32
+          example: 1
+
+    Auth:
+      type: object
+      properties:
+        AccessToken:
+          type: string
+          description: Token JWT de acesso
+          example: eyJhbGciOiJIUzI1NiIsInR...
+        RefreshToken:
+          type: string
+          description: Token de atualização para renovar o acesso
+          example: dGhpcyByZWZyZXNoIHRva2Vu
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+      example:
+        message: Recurso não encontrado
+        code: 404
