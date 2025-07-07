@@ -13,7 +13,7 @@
     "react",
     "crud"
   ],
-  "author": "Salvador",
+  "author": "Salvador Vicente",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",

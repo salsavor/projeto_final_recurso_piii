@@ -33,7 +33,13 @@ paths:
       description: Cria um novo user na base de dados
       operationId: createUser
       parameters:
-
+        - name: user_id
+          in: query
+          required: true
+          description: ID do utilizador que está a criar o user
+          schema:
+            type: integer
+            format: int32
       requestBody:
         description: Criar um novo user
         content:
@@ -59,8 +65,22 @@ paths:
                 $ref: "#/components/schemas/User"
         "400":
           description: Erro na criação do user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Dados inválidos
+                code: 400
         "500":
           description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
     get:
       tags:
         - user
@@ -934,7 +954,7 @@ paths:
                 message: Erro interno no servidor
                 code: 500
 
-  /autores:
+  /autor:
     post:
       tags:
         - autor
@@ -1031,8 +1051,8 @@ paths:
               example:
                 message: Erro interno no servidor
                 code: 500
-  
-  /autores/{id}:
+
+  /autor/{id}:
     get:
       tags:
         - autor
@@ -1129,6 +1149,54 @@ paths:
               example:
                 message: Erro interno no servidor
                 code: 500
+  /autor/{nome}:
+    get:
+      tags:
+        - autor
+      summary: Lista um autor com base no nome
+      description: Lista um autor com base no nome na base de dados
+      operationId: getAutorByName
+      parameters:
+        - name: nome
+          in: path
+          required: true
+          description: Nome do autor a ser listado
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Autor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na listagem do autor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Autor não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Autor não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500get
 
 components:
   securitySchemes:
@@ -1182,10 +1250,13 @@ components:
           type: string
           format: date-time
           example: 1616-04-22T00:00:00Z
-        livros:
+        livro_id:
           type: array
           items:
             $ref: "#/components/schemas/Livro"
+        biografia:
+          type: string
+          example: Miguel de Cervantes foi um escritor espanhol, amplamente considerado uma das maiores figuras da literatura mundial. É mais conhecido por seu romance "Dom Quixote", que é frequentemente citado como o primeiro romance moderno.
 
     Emprestimo:
       type: object
@@ -1206,10 +1277,14 @@ components:
           type: string
           format: date-time
           example: 2025-04-05 12:00:00
-        data_devolucao:
+        data_devolucao_prevista:
           type: string
           format: date-time
           example: 2025-04-12 12:00:00
+        data_devolucao_realizada:
+          type: string
+          format: date-time
+          example: 2025-04-10 12:00:00
 
     Livro:
       type: object
@@ -1231,14 +1306,6 @@ components:
         genero:
           type: string
           example: Romance
-        preco:
-          type: number
-          format: float
-          example: 19.99
-        vendedor_id:
-          type: integer
-          format: int32
-          example: 1
 
     Auth:
       type: object
@@ -1246,7 +1313,7 @@ components:
         AccessToken:
           type: string
           description: Token JWT de acesso
-          example: eyJhbGciOiJIUzI1NiIsInR...
+          example: eyJhbGciOiJIUzI1NiIsInR
         RefreshToken:
           type: string
           description: Token de atualização para renovar o acesso

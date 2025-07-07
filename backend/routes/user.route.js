@@ -5,7 +5,7 @@ const router = express.Router();
 const middleware = require("../middleware");
 
 //importação do controller
-const userController = require("../controllers/user.controller");
+const userController = require("../controllers/user.controller.js");
 
 //rotas (endpoints) da entidade 'user'
 router.post("/user", middleware.checkToken, userController.createUser);
@@ -18,6 +18,10 @@ router.delete("/user/:id", middleware.checkToken, userController.deleteUser);
 
 router.get("/user/:id", middleware.checkToken, userController.getUserById);
 
-router.get("/user/:name", middleware.checkToken, userController.getUserByName);
+router.get(
+  "/user/:name",
+  middleware.checkToken,
+  userController.getUserByUsername
+);
 
 module.exports = router;

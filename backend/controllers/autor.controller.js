@@ -10,7 +10,7 @@ user/{id}: updateUser (put)
 user/{nome}: getUserByName (get)
 */
 
-const User = require("../models/user.model");
+const User = require("../models/autor.model");
 
 const endpointsFunction = {};
 
