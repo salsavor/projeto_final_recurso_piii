@@ -668,7 +668,7 @@ paths:
         - livro
       summary: Lista livros por género
       description: Lista todos os livros de um determinado género
-      operationId: getLivrosByGenero
+      operationId: getLivrosByGenre
       parameters:
         - name: genero
           in: path

@@ -1,8 +1,7 @@
 const sequelize = require("sequelize");
 const conexao = require("../config/database");
-const Livro = require("./livro.model"); // Importa o modelo Livro
 
-let Autor = conexao.define(
+const autor = conexao.define(
   "autor",
   {
     id: {
@@ -26,11 +25,15 @@ let Autor = conexao.define(
       type: sequelize.DATE,
       allowNull: true, // pode ser null se o autor ainda estiver vivo
     },
+    biografia: {
+      type: sequelize.TEXT,
+      allowNull: true, // autor pode nao ter biografia
+    },
     livro_id: {
       type: sequelize.INTEGER,
       allowNull: true, // pode ser null se o autor não tiver livros associados
       references: {
-        model: "livro", // nome da tabela referenciada
+        model: "livros", // nome da tabela referenciada
         key: "id", // chave primária da tabela referenciada
       },
     },
@@ -41,4 +44,4 @@ let Autor = conexao.define(
   }
 );
 
-module.exports = Autor;
+module.exports = autor;

@@ -5,21 +5,29 @@ const router = express.Router();
 const middleware = require("../middleware");
 
 //importação do controller
-const autorController = require("../controllers/autor.controller.js");
+const livroController = require("../controllers/livro.controller.js");
 
-//rotas (endpoints) da entidade 'autor'
-router.post("/autor", middleware.checkToken, autorController.createAutor);
+//rotas (endpoints) da entidade 'livro'
+router.post("/livro", middleware.checkToken, livroController.createLivro);
 
-router.get("/autores", middleware.checkToken, autorController.getAllAutors);
+router.get("/livros", middleware.checkToken, livroController.getAllLivros);
 
-router.delete("/autor/:id", middleware.checkToken, autorController.deleteAutor);
+router.delete("/livro/:id", middleware.checkToken, livroController.deleteLivro);
 
-router.get("/autor/:id", middleware.checkToken, autorController.getAutorById);
+router.get("/livro/:id", middleware.checkToken, livroController.getLivroById);
 
 router.get(
-  "/autor/:nome",
+  "/livro/:titulo",
   middleware.checkToken,
-  autorController.getAutorByNome
+  livroController.getLivroByTitle
 );
+
+router.get(
+  "/livro/:genero",
+  middleware.checkToken,
+  livroController.getLivroByGenre
+);
+
+router.put("livro/:id", middleware.checkToken, livroController.updateLivro);
 
 module.exports = router;

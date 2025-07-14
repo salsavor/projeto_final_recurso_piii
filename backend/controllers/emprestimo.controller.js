@@ -1,74 +1,84 @@
-//utilidade do user ainda não está definida
-//mas pode ser utilizado para armazenar informações de clientes e vendedores
-
-/*
-user: createUser (post)
-user: getAllUsers (get)
-user/{id}: deleteUser (delete)
-user/{id}: getUserById (get)
-user/{id}: updateUser (put)
-user/{nome}: getUserByName (get)
-*/
-
-const User = require("../models/user.model");
+const Emprestimo = require("../models/emprestimo.model");
 
 const endpointsFunction = {};
 
-// método para criar um user
-endpointsFunction.createUser = async (req, res) => {
-  const { username, email, num_telefone } = req.body;
-  console.log(username, email, num_telefone);
+// método para criar um emprestimo
+endpointsFunction.createEmprestimo = async (req, res) => {
+  const {
+    data_emprestimo,
+    data_devolucao_prevista,
+    data_devolucao_realizada,
+    user_id,
+    livro_id,
+  } = req.body;
+  console.log(
+    data_emprestimo,
+    data_devolucao_prevista,
+    data_devolucao_realizada,
+    user_id,
+    livro_id
+  );
   try {
-    const dados = await User.create({
-      username: username,
-      email: email,
-      num_telefone: num_telefone,
+    const dados = await Emprestimo.create({
+      data_emprestimo: data_emprestimo,
+      data_devolucao_prevista: data_devolucao_prevista,
+      data_devolucao_realizada: data_devolucao_realizada,
+      user_id: user_id,
+      livro_id: livro_id,
     });
 
     res.status(201).json({
       status: "success",
-      message: "user criado com sucesso",
+      message: "emprestimo criado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao criar user",
+      message: "ocorreu um erro ao criar emprestimo",
       data: null,
     });
   }
 };
 
-//método que retorna todos os users
-endpointsFunction.getAllUsers = async (req, res) => {
+//método que retorna todos os emprestimos
+endpointsFunction.getAllEmprestimos = async (req, res) => {
   try {
-    const dados = await User.findAll();
+    const dados = await Emprestimo.findAll();
 
     res.status(200).json({
       status: "success",
-      message: "lista de users obtida com sucesso",
+      message: "lista de emprestimos obtida com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar os users",
+      message: "ocorreu um erro ao listar os emprestimos",
       data: null,
     });
   }
 };
 
-//método que atualiza dos dados do user de acordo com o seu ID
-endpointsFunction.updateUser = async (req, res) => {
+//método que atualiza dos dados do emprestimo de acordo com o seu ID
+endpointsFunction.updateEmprestimo = async (req, res) => {
   const { id } = req.params;
-  const { username, email, num_telefone } = req.body;
+  const {
+    data_emprestimo,
+    data_devolucao_prevista,
+    data_devolucao_realizada,
+    user_id,
+    livro_id,
+  } = req.body;
 
   try {
-    const dados = await User.update(
+    const dados = await Emprestimo.update(
       {
-        username: username,
-        email: email,
-        num_telefone: num_telefone,
+        data_emprestimo: data_emprestimo,
+        data_devolucao_prevista: data_devolucao_prevista,
+        data_devolucao_realizada: data_devolucao_realizada,
+        user_id: user_id,
+        livro_id: livro_id,
       },
       {
         where: { id: id },
@@ -77,101 +87,73 @@ endpointsFunction.updateUser = async (req, res) => {
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "emprestimo não encontrado",
       });
     }
     res.status(200).json({
       status: "success",
-      message: "user atualizado com sucesso",
+      message: "emprestimo atualizado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao atualizar user",
+      message: "ocorreu um erro ao atualizar emprestimo",
       data: null,
     });
   }
 };
 
-//método que apaga os dados de um user com base no seu ID
-endpointsFunction.deleteUser = async (req, res) => {
+//método que apaga os dados de um emprestimo com base no seu ID
+endpointsFunction.deleteEmprestimo = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await User.destroy({
+    const dados = await Emprestimo.destroy({
       where: { id: id },
     });
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "emprestimo não encontrado",
       });
     }
     res.status(204).json({
       status: "success",
-      message: "user apagado com sucesso",
+      message: "emprestimo apagado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao apagar user",
+      message: "ocorreu um erro ao apagar emprestimo",
       data: null,
     });
   }
 };
 
-//método que retorna os dados de um user com base no seu ID
-endpointsFunction.getUserById = async (req, res) => {
+//método que retorna os dados de um emprestimo com base no seu ID
+endpointsFunction.getEmprestimoById = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await User.findOne({
+    const dados = await Emprestimo.findOne({
       where: { id: id },
     });
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "emprestimo não encontrado",
       });
     }
 
     res.status(200).json({
       status: "success",
-      message: "user encontrado com sucesso",
+      message: "emprestimo encontrado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar user",
-      data: null,
-    });
-  }
-};
-
-//método que retorna os dados de um user com base no seu nome
-endpointsFunction.getUserByUsername = async (req, res) => {
-  const { nome } = req.params;
-  try {
-    const dados = await User.findOne({
-      where: { nome: nome },
-    });
-    if (!dados) {
-      return res.status(404).json({
-        status: "error",
-        message: "user não encontrado",
-      });
-    }
-
-    res.status(200).json({
-      status: "success",
-      message: "user encontrado com sucesso",
-      data: dados,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "ocorreu um erro ao listar user",
+      message: "ocorreu um erro ao listar emprestimo",
       data: null,
     });
   }

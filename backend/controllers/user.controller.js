@@ -1,15 +1,3 @@
-//utilidade do user ainda não está definida
-//mas pode ser utilizado para armazenar informações de clientes e vendedores
-
-/*
-user: createUser (post)
-user: getAllUsers (get)
-user/{id}: deleteUser (delete)
-user/{id}: getUserById (get)
-user/{id}: updateUser (put)
-user/{nome}: getUserByName (get)
-*/
-
 const User = require("../models/user.model");
 
 const endpointsFunction = {};

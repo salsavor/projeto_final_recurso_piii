@@ -1,7 +1,8 @@
+const bcrypt = require("bcrypt");
 const sequelize = require("sequelize");
 const conexao = require("../config/database");
 
-let User = conexao.define(
+const User = conexao.define(
   "User",
   {
     id: {
@@ -47,5 +48,33 @@ let User = conexao.define(
     updatedAt: "data_atualizacao", // nome para updatedAt
   }
 );
+
+User.beforeCreate((user, options) => {
+  return bcrypt
+    .hash(user.password, 10)
+    .then((hash) => {
+      user.password = hash;
+    })
+    .catch((error) => {
+      throw new Error("Erro ao gerar o hash: " + error.message);
+    });
+});
+
+User.beforeUpdate((user, options) => {
+  if (user.changed("password")) {
+    return bcrypt
+      .hash(user.password, 10)
+      .then((hash) => {
+        user.password = hash;
+      })
+      .catch((error) => {
+        throw new Error("Erro ao gerar o hash: " + error.message);
+      });
+  }
+});
+
+User.prototype.validPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 module.exports = User;

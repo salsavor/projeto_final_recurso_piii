@@ -3,7 +3,7 @@ const conexao = require("../config/database");
 const User = require("./user.model"); // Importa o modelo User
 const Livro = require("./livro.model"); // Importa o modelo Livro
 
-let Emprestimo = conexao.define(
+const Emprestimo = conexao.define(
   "Emprestimo",
   {
     id: {
@@ -16,16 +16,16 @@ let Emprestimo = conexao.define(
       type: sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "users", // nome da tabela referenciada
-        key: "id", // chave primária da tabela referenciada
+        model: "user", // referencia o modelo user
+        key: "id", // chave primária do modelo user
       },
     },
     livro_id: {
       type: sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: "livros", // nome da tabela referenciada
-        key: "id", // chave primária da tabela referenciada
+        model: "livro", // referencia o modelo livro
+        key: "id", // chave primária do modelo livro
       },
     },
     data_emprestimo: {

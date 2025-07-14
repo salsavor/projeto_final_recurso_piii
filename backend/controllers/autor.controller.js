@@ -1,74 +1,89 @@
-//utilidade do user ainda não está definida
-//mas pode ser utilizado para armazenar informações de clientes e vendedores
-
-/*
-user: createUser (post)
-user: getAllUsers (get)
-user/{id}: deleteUser (delete)
-user/{id}: getUserById (get)
-user/{id}: updateUser (put)
-user/{nome}: getUserByName (get)
-*/
-
-const User = require("../models/autor.model");
+const Autor = require("../models/autor.model");
 
 const endpointsFunction = {};
 
-// método para criar um user
-endpointsFunction.createUser = async (req, res) => {
-  const { username, email, num_telefone } = req.body;
-  console.log(username, email, num_telefone);
+// método para criar um autor
+endpointsFunction.createAutor = async (req, res) => {
+  const {
+    nome,
+    nacionalidade,
+    data_nascimento,
+    data_falecimento,
+    biografia,
+    livro_id,
+  } = req.body;
+  console.log(
+    nome,
+    nacionalidade,
+    data_nascimento,
+    data_falecimento,
+    biografia,
+    livro_id
+  );
   try {
-    const dados = await User.create({
-      username: username,
-      email: email,
-      num_telefone: num_telefone,
+    const dados = await Autor.create({
+      nome: nome,
+      nacionalidade: nacionalidade,
+      data_nascimento: data_nascimento,
+      data_falecimento: data_falecimento,
+      biografia: biografia,
+      livro_id: livro_id,
     });
 
     res.status(201).json({
       status: "success",
-      message: "user criado com sucesso",
+      message: "autor criado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao criar user",
+      message: "ocorreu um erro ao criar autor",
       data: null,
     });
   }
 };
 
-//método que retorna todos os users
-endpointsFunction.getAllUsers = async (req, res) => {
+//método que retorna todos os autores
+endpointsFunction.getAllAutores = async (req, res) => {
   try {
-    const dados = await User.findAll();
+    const dados = await Autor.findAll();
 
     res.status(200).json({
       status: "success",
-      message: "lista de users obtida com sucesso",
+      message: "lista de autors obtida com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar os users",
+      message: "ocorreu um erro ao listar os autors",
       data: null,
     });
   }
 };
 
-//método que atualiza dos dados do user de acordo com o seu ID
-endpointsFunction.updateUser = async (req, res) => {
+//método que atualiza dos dados do autor de acordo com o seu ID
+endpointsFunction.updateAutor = async (req, res) => {
   const { id } = req.params;
-  const { username, email, num_telefone } = req.body;
+  const {
+    nome,
+    nacionalidade,
+    data_nascimento,
+    data_falecimento,
+    biografia,
+    livro_id,
+  } = req.body;
 
   try {
-    const dados = await User.update(
+    const dados = await Autor.update(
       {
-        username: username,
-        email: email,
-        num_telefone: num_telefone,
+        nome: nome,
+        nacionalidade: nacionalidade,
+        data_nascimento: data_nascimento,
+        data_falecimento: data_falecimento,
+        biografia: biografia,
+        livro_id: livro_id,
       },
       {
         where: { id: id },
@@ -77,101 +92,101 @@ endpointsFunction.updateUser = async (req, res) => {
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "autor não encontrado",
       });
     }
     res.status(200).json({
       status: "success",
-      message: "user atualizado com sucesso",
+      message: "autor atualizado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao atualizar user",
+      message: "ocorreu um erro ao atualizar autor",
       data: null,
     });
   }
 };
 
-//método que apaga os dados de um user com base no seu ID
-endpointsFunction.deleteUser = async (req, res) => {
+//método que apaga os dados de um autor com base no seu ID
+endpointsFunction.deleteAutor = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await User.destroy({
+    const dados = await Autor.destroy({
       where: { id: id },
     });
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "autor não encontrado",
       });
     }
     res.status(204).json({
       status: "success",
-      message: "user apagado com sucesso",
+      message: "autor apagado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao apagar user",
+      message: "ocorreu um erro ao apagar autor",
       data: null,
     });
   }
 };
 
-//método que retorna os dados de um user com base no seu ID
-endpointsFunction.getUserById = async (req, res) => {
+//método que retorna os dados de um autor com base no seu ID
+endpointsFunction.getAutorById = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await User.findOne({
+    const dados = await Autor.findOne({
       where: { id: id },
     });
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "autor não encontrado",
       });
     }
 
     res.status(200).json({
       status: "success",
-      message: "user encontrado com sucesso",
+      message: "autor encontrado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar user",
+      message: "ocorreu um erro ao listar autor",
       data: null,
     });
   }
 };
 
-//método que retorna os dados de um user com base no seu nome
-endpointsFunction.getUserByUsername = async (req, res) => {
+//método que retorna os dados de um autor com base no seu nome
+endpointsFunction.getAutorByName = async (req, res) => {
   const { nome } = req.params;
   try {
-    const dados = await User.findOne({
+    const dados = await Autor.findOne({
       where: { nome: nome },
     });
     if (!dados) {
       return res.status(404).json({
         status: "error",
-        message: "user não encontrado",
+        message: "autor não encontrado",
       });
     }
 
     res.status(200).json({
       status: "success",
-      message: "user encontrado com sucesso",
+      message: "autor encontrado com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar user",
+      message: "ocorreu um erro ao listar autor",
       data: null,
     });
   }

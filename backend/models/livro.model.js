@@ -1,9 +1,9 @@
 const sequelize = require("sequelize");
 const conexao = require("../config/database");
-const Autor = require("./autor.model"); // importa o modelo Autor
+const autor = require("./autor.model"); // importa o modelo Autor
 
-let Livro = conexao.define(
-  "Livro",
+const livro = conexao.define(
+  "livros",
   {
     id: {
       type: sequelize.INTEGER,
@@ -48,11 +48,11 @@ let Livro = conexao.define(
   }
 );
 
-Livro.belongsTo(Autor, {
+livro.belongsTo(autor, {
   foreignKey: "autor_id",
   targeKey: "id",
   as: "livro_autor",
   onDelete: "CASCADE", // se o autor for apagado, os livros associados também serão deletados
 });
 
-module.exports = Livro;
+module.exports = livro;
