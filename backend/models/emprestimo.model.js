@@ -64,7 +64,7 @@ Emprestimo.belongsTo(User, {
   onDelete: "CASCADE", // se o user for apagado, os empréstimos associados também vão ser
 });
 
-Emprestimo.belongsTo(Livro, {
+Emprestimo.belongsToMany(Livro, {
   foreignKey: "livro_id",
   targetKey: "id",
   as: "emprestimo_livro",
