@@ -50,7 +50,7 @@ const livro = conexao.define(
 
 livro.belongsTo(autor, {
   foreignKey: "autor_id",
-  targeKey: "id",
+  targetKey: "id",
   as: "livro_autor",
   onDelete: "CASCADE", // se o autor for apagado, os livros associados também serão deletados
 });
