@@ -40,7 +40,9 @@ const autor = conexao.define(
   },
   {
     tableName: "autor",
-    timestamps: false,
+    timestamps: true, // adiciona automaticamente createdAt e updatedAt fields
+    createdAt: "data_registo", // nome para createdAt
+    updatedAt: "data_atualizacao", // nome para updatedAt
   }
 );
 

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-conexao.sync(); //verifica a base de dados
+conexao.sync({force: true}); //verifica a base de dados
 
 app.use("/api/v1", require("./routes/autor.route.js"));
 app.use("/api/v1", require("./routes/emprestimo.route.js"));
