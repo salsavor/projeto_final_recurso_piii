@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard.jsx";
 import Profile from "./pages/Profile.jsx";
+import Register from "./pages/Register.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<p>Página não encontrada</p>} />
         </Routes>
       </BrowserRouter>
