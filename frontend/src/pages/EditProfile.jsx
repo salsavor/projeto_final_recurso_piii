@@ -13,6 +13,10 @@ import {
 } from "@mui/material";
 import Carrossel from "../components/Carrossel";
 import { useNavigate } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -25,6 +29,7 @@ export default function EditProfile() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -46,6 +51,21 @@ export default function EditProfile() {
 
   const handleCancel = () => {
     navigate("/profile");
+  };
+
+  const handleDeleteAccount = () => {
+    setOpenDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setOpenDialog(false);
+    // Simulação de apagar conta
+    alert("Conta apagada com sucesso!");
+    navigate("/register");
+  };
+
+  const handleCancelDelete = () => {
+    setOpenDialog(false);
   };
 
   return (
@@ -130,9 +150,33 @@ export default function EditProfile() {
               >
                 Cancelar
               </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleDeleteAccount}
+                sx={{ borderRadius: 20 }}
+              >
+                Apagar Conta
+              </Button>
             </Stack>
           </Box>
         </Paper>
+        <Dialog open={openDialog} onClose={handleCancelDelete}>
+          <DialogTitle>Atenção!</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1">
+              Tem a certeza que deseja apagar esta conta? Ela será apagada para sempre! (Muito tempo!)
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDelete} color="error" variant="contained">
+              Apagar Conta
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </>
   );

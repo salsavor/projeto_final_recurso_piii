@@ -1,4 +1,4 @@
-const Autor = require("../models/autor.model");
+const autor = require("../models/autor.model");
 
 const endpointsFunction = {};
 
@@ -10,7 +10,7 @@ endpointsFunction.createAutor = async (req, res) => {
     data_nascimento,
     data_falecimento,
     biografia,
-    livro_id,
+    avatar,
   } = req.body;
   console.log(
     nome,
@@ -18,16 +18,16 @@ endpointsFunction.createAutor = async (req, res) => {
     data_nascimento,
     data_falecimento,
     biografia,
-    livro_id
+    avatar
   );
   try {
-    const dados = await Autor.create({
+    const dados = await autor.create({
       nome: nome,
       nacionalidade: nacionalidade,
       data_nascimento: data_nascimento,
       data_falecimento: data_falecimento,
       biografia: biografia,
-      livro_id: livro_id,
+      avatar: avatar,
     });
 
     res.status(201).json({
@@ -47,17 +47,17 @@ endpointsFunction.createAutor = async (req, res) => {
 //método que retorna todos os autores
 endpointsFunction.getAllAutores = async (req, res) => {
   try {
-    const dados = await Autor.findAll();
+    const dados = await autor.findAll();
 
     res.status(200).json({
       status: "success",
-      message: "lista de autors obtida com sucesso",
+      message: "lista de autores obtida com sucesso",
       data: dados,
     });
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "ocorreu um erro ao listar os autors",
+      message: "ocorreu um erro ao listar os autores",
       data: null,
     });
   }
@@ -72,18 +72,18 @@ endpointsFunction.updateAutor = async (req, res) => {
     data_nascimento,
     data_falecimento,
     biografia,
-    livro_id,
+    avatar,
   } = req.body;
 
   try {
-    const dados = await Autor.update(
+    const dados = await autor.update(
       {
         nome: nome,
         nacionalidade: nacionalidade,
         data_nascimento: data_nascimento,
         data_falecimento: data_falecimento,
         biografia: biografia,
-        livro_id: livro_id,
+        avatar: avatar,
       },
       {
         where: { id: id },
@@ -104,16 +104,20 @@ endpointsFunction.updateAutor = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "ocorreu um erro ao atualizar autor",
-      data: null,
     });
   }
+  res.status(200).json({
+    status: "success",
+    message: "autor atualizado com sucesso",
+    data: dados,
+  });
 };
 
 //método que apaga os dados de um autor com base no seu ID
 endpointsFunction.deleteAutor = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await Autor.destroy({
+    const dados = await autor.destroy({
       where: { id: id },
     });
     if (!dados) {
@@ -140,7 +144,7 @@ endpointsFunction.deleteAutor = async (req, res) => {
 endpointsFunction.getAutorById = async (req, res) => {
   const { id } = req.params;
   try {
-    const dados = await Autor.findOne({
+    const dados = await autor.findOne({
       where: { id: id },
     });
     if (!dados) {
@@ -168,7 +172,7 @@ endpointsFunction.getAutorById = async (req, res) => {
 endpointsFunction.getAutorByName = async (req, res) => {
   const { nome } = req.params;
   try {
-    const dados = await Autor.findOne({
+    const dados = await autor.findOne({
       where: { nome: nome },
     });
     if (!dados) {

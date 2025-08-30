@@ -3,10 +3,11 @@ import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { PrivateRoute } from "./components/PrivateRoute.jsx";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard.jsx";
 import Profile from "./pages/Profile.jsx";
 import Register from "./pages/Register.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import Book from "./pages/Livro.jsx";
+import Autor from "./pages/Autor.jsx";
 
 function App() {
   return (
@@ -17,13 +18,14 @@ function App() {
 
           {/* apenas para users autenticados */}
           <Route element={<PrivateRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/book/:id" element={<Book />} />
+          <Route path="/autor/:id" element={<Autor />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="*" element={<p>Página não encontrada</p>} />
+          <Route path="*" element={<p>Página não encontrada...</p>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

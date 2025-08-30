@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Carrossel from "../components/Carrossel";
 
-export default function ProfilePage() {
+export default function Profile() {
   const navigate = useNavigate();
 
   // Dados do user falsos

@@ -1149,6 +1149,68 @@ paths:
               example:
                 message: Erro interno no servidor
                 code: 500
+    put:
+      tags:
+        - autor
+      summary: Atualizar um autor
+      description: Atualiza um autor com base no seu ID na base de dados
+      operationId: updateAutor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do autor a ser atualizado
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Atualizar um autor
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Autor"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Autor"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Autor"
+        required: true
+      responses:
+        "200":
+          description: Autor atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Autor"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Autor"
+        "400":
+          description: Erro na atualização do autor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Autor não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Autor não encontrado
+                code: 404
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: Erro interno no servidor
+                code: 500
+
   /autor/{nome}:
     get:
       tags:

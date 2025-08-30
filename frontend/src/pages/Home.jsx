@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -7,6 +7,11 @@ import {
   CardMedia,
   Paper,
   Divider,
+  AppBar,
+  Toolbar,
+  TextField,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 
 const ScrollSection = ({ title, items }) => (
@@ -87,11 +92,18 @@ const ScrollSection = ({ title, items }) => (
   </Box>
 );
 
-const LibraryHomePage = () => {
+export default function Home() {
+  const [search, setSearch] = useState("");
+
   const livros = [
     {
       title: "Dom Quixote",
       subtitle: "Miguel de Cervantes",
+      image: "https://i.imgur.com/t9qkeD1.jpeg",
+    },
+    {
+      title: "Os Maias",
+      subtitle: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
@@ -251,39 +263,53 @@ const LibraryHomePage = () => {
     },
   ];
 
+  // Filtra livros/autores pelo título ou subtítulo
+  const filteredLivros = livros.filter(
+    (l) =>
+      l.title.toLowerCase().includes(search.toLowerCase()) ||
+      l.subtitle.toLowerCase().includes(search.toLowerCase())
+  );
+  const filteredAutores = autores.filter(
+    (a) =>
+      a.title.toLowerCase().includes(search.toLowerCase()) ||
+      a.subtitle.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        p: { xs: 2, md: 6 },
-      }}
-    >
-      <Paper
-        elevation={6}
-        sx={{
-          p: { xs: 2, md: 4 },
-          mb: 6,
-          borderRadius: 4,
-          textAlign: "center",
-        }}
-      >
-        <Typography
-          variant="h3"
-          fontWeight={800}
-          color="primary.dark"
-          gutterBottom
-          sx={{ letterSpacing: 2 }}
-        >
-          GS - Books
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Descubra livros e autores em destaque!
-        </Typography>
-      </Paper>
-      <ScrollSection title="Livros em Destaque" items={livros} />
-      <ScrollSection title="Autores" items={autores} />
+    <Box sx={{ minHeight: "100vh", p: { xs: 2, md: 6 }, pt: 12 }}>
+      <AppBar position="fixed" color="primary" elevation={3}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Typography
+            variant="h5"
+            fontWeight={800}
+            sx={{ letterSpacing: 2 }}
+            color="inherit"
+          >
+            GS - Books
+          </Typography>
+          <TextField
+            size="small"
+            placeholder="Pesquisar livros ou autores..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            sx={{ width: { xs: 140, sm: 250, md: 350 } }}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton edge="end" disabled>
+                      {/* Ícone aqui */}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                sx: { background: "#fff", borderRadius: 2 },
+              },
+            }}
+          />
+        </Toolbar>
+      </AppBar>
+      <ScrollSection title="Livros em Destaque" items={filteredLivros} />
+      <ScrollSection title="Autores" items={filteredAutores} />
     </Box>
   );
-};
-
-export default LibraryHomePage;
+}

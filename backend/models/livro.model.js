@@ -39,6 +39,10 @@ const livro = conexao.define(
         isIn: [["disponivel", "em atraso", "reservado"]],
       },
     },
+    capa: {
+      type: sequelize.STRING,
+      allowNull: true,
+    },
   },
   {
     tableName: "livros",

@@ -21,3 +21,13 @@ app.use("/api/v1", require("./routes/auth.route"));
 app.listen(app.get("port"), () => {
   console.log("Servidor a correr na porta " + app.get("port"));
 });
+
+
+conexao.sync({ force: false })
+  .then(() => {
+    console.log("✅ Todas as tabelas foram sincronizadas!");
+  })
+  .catch(err => {
+    console.error("❌ Erro ao sincronizar:", err);
+  });
+

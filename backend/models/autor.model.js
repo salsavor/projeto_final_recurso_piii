@@ -1,5 +1,6 @@
 const sequelize = require("sequelize");
 const conexao = require("../config/database");
+const livro = require("./livro.model"); // importa o modelo Livro
 
 const autor = conexao.define(
   "autor",
@@ -8,6 +9,7 @@ const autor = conexao.define(
       type: sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      allowNull: false,
     },
     nome: {
       type: sequelize.STRING,
@@ -17,33 +19,39 @@ const autor = conexao.define(
       type: sequelize.STRING,
       allowNull: false,
     },
-    data_nascimento: {
-      type: sequelize.DATE,
+    ano_nascimento: {
+      type: sequelize.INTEGER,
       allowNull: false,
     },
-    data_falecimento: {
-      type: sequelize.DATE,
-      allowNull: true, // pode ser null se o autor ainda estiver vivo
+    ano_falecimento: {
+      type: sequelize.INTEGER,
+      allowNull: true,
     },
     biografia: {
-      type: sequelize.TEXT,
-      allowNull: true, // autor pode nao ter biografia
+      type: sequelize.STRING,
+      allowNull: true,
+    },
+    avatar: {
+      type: sequelize.STRING,
+      allowNull: true, // pode ser null se o autor não tiver avatar
     },
     livro_id: {
       type: sequelize.INTEGER,
-      allowNull: true, // pode ser null se o autor não tiver livros associados
+      allowNull: true, // autor pode não ter livros
       references: {
-        model: "livros", // nome da tabela referenciada
-        key: "id", // chave primária da tabela referenciada
+        model: "livros", //nome da tabela de origem
+        key: "id", //pk da tabela de origem
       },
     },
   },
   {
     tableName: "autor",
-    timestamps: true, // adiciona automaticamente createdAt e updatedAt fields
+    timestamps: true, // adiciona automaticamente createdAt e updatedAt
     createdAt: "data_registo", // nome para createdAt
     updatedAt: "data_atualizacao", // nome para updatedAt
   }
 );
 
-module.exports = autor;
+autor.hasMany(livro, { foreignKey: "autor_id", as: "livros" }); // o relacionamento reverso
+
+module.exports = livro;
