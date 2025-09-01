@@ -37,7 +37,7 @@ const ScrollSection = ({ title, items, type }) => (
         gap: 3,
         maxWidth: "100%",
         overflowX: "auto",
-        pb: 2,  
+        pb: 2,
         /* width */
 
         "&::-webkit-scrollbar": {
@@ -260,7 +260,26 @@ export default function Home() {
           >
             GS - Books
           </Typography>
+
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Button
+              component={RouterLink}
+              to="/login"
+              color="inherit"
+              variant="outlined"
+              sx={{ ml: 2, borderRadius: 2, fontWeight: 600 }}
+            >
+              Login
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/register"
+              color="primary"
+              variant="contained"
+              sx={{ ml: 1, borderRadius: 2, fontWeight: 600 }}
+            >
+              Registar
+            </Button>
             <TextField
               size="small"
               placeholder="Pesquisar livros e autores..."
@@ -280,24 +299,6 @@ export default function Home() {
                 },
               }}
             />
-            <Button
-              component={RouterLink}
-              to="/login"
-              color="inherit"
-              variant="outlined"
-              sx={{ ml: 2, borderRadius: 2, fontWeight: 600 }}
-            >
-              Login
-            </Button>
-            <Button
-              component={RouterLink}
-              to="/register"
-              color="primary"
-              variant="contained"
-              sx={{ ml: 1, borderRadius: 2, fontWeight: 600 }}
-            >
-              Registar
-            </Button>
           </Box>
         </Toolbar>
       </AppBar>
