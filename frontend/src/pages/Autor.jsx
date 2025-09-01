@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -42,7 +42,6 @@ export default function Autor() {
   const defaultAvatar =
     "https://www.pngmart.com/files/23/Profile-PNG-Photo.png";
 
-
   useEffect(() => {
     // Para ver as informações falsas, use FalsoAutor
     setAutor(FalsoAutor);
@@ -58,120 +57,141 @@ export default function Autor() {
 
   return (
     <>
-    <Carrossel />
+      <Carrossel />
 
-    <Box
-      sx={{
-        p: { xs: 2, md: 6 },
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Paper
-        elevation={6}
+      <Box
         sx={{
-          p: { xs: 2, md: 4 },
-          borderRadius: 4,
-          maxWidth: 600,
-          width: "100%",
-          textAlign: "center",
+          p: { xs: 2, md: 6 },
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Box
+        <Paper
+          elevation={6}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            p: { xs: 2, md: 4 },
+            borderRadius: 4,
+            maxWidth: 600,
+            width: "100%",
+            textAlign: "center",
           }}
         >
-          <img
-            src={autor.avatar ? autor.avatar : defaultAvatar}
-            alt={autor.nome}
-            style={{
-              width: 120,
-              height: 120,
-              borderRadius: "50%",
-              marginBottom: 16,
-              objectFit: "cover",
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-          />
-          <Typography variant="h4" fontWeight={700} gutterBottom color="primary.dark">
-            {autor.nome}
-          </Typography>
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-            {autor.biografia}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Nacionalidade: {autor.nacionalidade}
-          </Typography>
-          <Divider sx={{ my: 1 }} />
-          <Typography variant="body2" color="text.secondary">
-            Nascimento: {autor.data_nascimento}
-          </Typography>
-          {autor.data_falecimento && (
-            <Typography variant="body2" color="text.secondary">
-              Morte: {autor.data_falecimento}
+          >
+            <img
+              src={autor.avatar ? autor.avatar : defaultAvatar}
+              alt={autor.nome}
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: "50%",
+                marginBottom: 16,
+                objectFit: "cover",
+              }}
+            />
+            <Typography
+              variant="h4"
+              fontWeight={700}
+              gutterBottom
+              color="primary.dark"
+            >
+              {autor.nome}
             </Typography>
-          )}
-        </Box>
-        <Divider sx={{ my: 3 }} />
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }} color="primary">
-          Livros
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 3,
-            overflowX: "auto",
-            pb: 2,
-            justifyContent: "center",
-          }}
-        >
-          {autor.livros && autor.livros.length > 0 ? (
-            autor.livros.map((livro) => (
-              <Card
-                key={livro.id}
-                sx={{
-                  minWidth: 180,
-                  maxWidth: 200,
-                  borderRadius: 3,
-                  boxShadow: 3,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={livro.capa}
-                  alt={livro.titulo}
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+              {autor.biografia}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Nacionalidade: {autor.nacionalidade}
+            </Typography>
+            <Divider sx={{ my: 1 }} />
+            <Typography variant="body2" color="text.secondary">
+              Nascimento: {autor.data_nascimento}
+            </Typography>
+            {autor.data_falecimento && (
+              <Typography variant="body2" color="text.secondary">
+                Morte: {autor.data_falecimento}
+              </Typography>
+            )}
+          </Box>
+          <Divider sx={{ my: 3 }} />
+          <Typography
+            variant="h6"
+            fontWeight={600}
+            sx={{ mb: 2 }}
+            color="primary"
+          >
+            Livros
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 3,
+              overflowX: "auto",
+              pb: 2,
+              justifyContent: "center",
+            }}
+          >
+            {autor.livros && autor.livros.length > 0 ? (
+              autor.livros.map((livro) => (
+                <Card
+                  key={livro.id}
+                  component={RouterLink}
+                  to={`/book/${livro.id}`}
                   sx={{
-                    width: 100,
-                    height: 140,
-                    objectFit: "cover",
-                    borderRadius: 2,
-                    mt: 2,
-                    boxShadow: 2,
+                    minWidth: 180,
+                    maxWidth: 200,
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    color: "inherit",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      boxShadow: 6,
+                      color: "primary.main",
+                    },
                   }}
-                />
-                <CardContent sx={{ textAlign: "center", pt: 2 }}>
-                  <Typography variant="subtitle1" fontWeight={600}>
-                    {livro.titulo}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <Typography variant="body2" color="text.secondary">
-              Este(a) autor(a) não tem livros associados.
-            </Typography>
-          )}
-        </Box>
-      </Paper>
-    </Box>
+                >
+                  <CardMedia
+                    component="img"
+                    image={livro.capa}
+                    alt={livro.titulo}
+                    sx={{
+                      width: 100,
+                      height: 140,
+                      objectFit: "cover",
+                      borderRadius: 2,
+                      mt: 2,
+                      boxShadow: 2,
+                    }}
+                  />
+                  <CardContent sx={{ textAlign: "center", pt: 2 }}>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      {livro.titulo}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                Este(a) autor(a) não tem livros associados.
+              </Typography>
+            )}
+          </Box>
+        </Paper>
+      </Box>
     </>
   );
 }

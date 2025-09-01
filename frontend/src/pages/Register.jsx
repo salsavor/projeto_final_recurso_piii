@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Carrossel from "../components/Carrossel";
 import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const theme = createTheme({
   typography: {
@@ -67,7 +68,7 @@ export default function Register() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
+          minHeight: "95vh",
         }}
       >
         <Paper
@@ -128,6 +129,22 @@ export default function Register() {
                   setRegisterData({ ...registerData, password: e.target.value })
                 }
               />
+              <Typography
+                variant="body2"
+                color="primary"
+                gutterBottom
+                component={RouterLink}
+                to={`/login`}
+                sx={{
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  "&:hover": { textDecoration: "underline" },
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Já tem conta? Faça login aqui.
+              </Typography>
               <Button
                 type="submit"
                 variant="contained"
@@ -143,7 +160,11 @@ export default function Register() {
                 }}
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : "Registar"}
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Registar"
+                )}
               </Button>
             </form>
           </Box>

@@ -8,6 +8,7 @@ import Register from "./pages/Register.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import Book from "./pages/Livro.jsx";
 import Autor from "./pages/Autor.jsx";
+import Create from "./pages/Create.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/autor/:id" element={<Autor />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/create" element={<Create />} />
           <Route path="*" element={<p>Página não encontrada...</p>} />
         </Routes>
       </BrowserRouter>
