@@ -95,14 +95,14 @@ const ScrollSection = ({ title, items, type }) => (
               boxShadow: 2,
             }}
             image={item.image}
-            alt={item.title}
+            alt={item.titulo}
           />
           <CardContent sx={{ textAlign: "center", pt: 2 }}>
             <Typography variant="subtitle1" fontWeight={600}>
-              {item.title}
+              {item.titulo}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {item.subtitle}
+              {item.titulo2}
             </Typography>
           </CardContent>
         </Card>
@@ -117,62 +117,62 @@ export default function Home() {
   const livros = [
     {
       id: "1",
-      title: "Dom Quixote",
-      subtitle: "Miguel de Cervantes",
+      titulo: "Dom Quixote",
+      titulo2: "Miguel de Cervantes",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "2",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "3",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "4",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "5",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "6",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "7",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "8",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "9",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
     {
       id: "10",
-      title: "Os Maias",
-      subtitle: "Eça de Queirós",
+      titulo: "Os Maias",
+      titulo2: "Eça de Queirós",
       image: "https://i.imgur.com/t9qkeD1.jpeg",
     },
   ];
@@ -180,72 +180,74 @@ export default function Home() {
   const autores = [
     {
       id: "1",
-      title: "Clarice Lispector",
-      subtitle: "Brasileira",
+      titulo: "Clarice Lispector",
+      titulo2: "Brasileira",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "2",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "3",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "4",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "5",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "6",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "7",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "8",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "9",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
     {
       id: "10",
-      title: "Fernando Pessoa",
-      subtitle: "Português",
+      titulo: "Fernando Pessoa",
+      titulo2: "Português",
       image: "https://i.imgur.com/8SZgkct_d.webp?maxwidth=760&fidelity=grand",
     },
   ];
 
   // Filtra livros/autores pelo nome
   const filteredLivros = livros.filter((l) =>
-    l.title.toLowerCase().includes(search.toLowerCase())
+    l.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    l.titulo2.toLowerCase().includes(search.toLowerCase())
   );
   const filteredAutores = autores.filter((a) =>
-    a.title.toLowerCase().includes(search.toLowerCase())
+    a.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    a.titulo2.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -282,7 +284,7 @@ export default function Home() {
             </Button>
             <TextField
               size="small"
-              placeholder="Pesquisar livros e autores..."
+              placeholder="Pesquisar por livros e autores..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               sx={{ width: { xs: 140, sm: 250, md: 350 } }}
